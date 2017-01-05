@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="http://avilinga.com/css/screen.css">
+    <style>
+        #container {
+            display: flex;
+            flex-direction: column;
+        }
+        #slide-container > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 180px;
+            max-width: 50%;
+            margin: 5em auto;
+        }
+        #wrapper {
+            flex-grow: 1;
+        }
+        table {
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            min-width: 30%;
+        }
+        th {
+            padding: 0 1em;
+        }
+        button {
+            width: 30%;
+            padding: 8px;
+            align-self: flex-end;
+            color: #FFF;
+            background-color: #772D6B;
+            border: 1px solid #000;
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<div id="container">
+    <div id="top">
+        <span id="logo"><a href="index.php"><img src="http://avilinga.com//images/logo.png" height="75" border="0" alt="logo"></a></span>
+
+        <div id="mainMenu2">
+            <ul class="menu2">
+                <li class="parent item100"><a href="translation-overview.php"><span>Translation &amp; Localization</span></a><ul><li class="item110"><a href="translation-overview.php"><span>Overview</span></a></li><li class="item120"><a href="translation-online-media.php"><span>Online Media</span></a></li><li class="item130"><a href="translation-traditional-media.php"><span>Traditional Media</span></a></li><li class="item140"><a href="translation-corporate-communications.php"><span>Corporate Communications</span></a></li><li class="item150"><a href="translation-case-studies.php"><span>Case Studies</span></a></li><li class="item160"><a href="translation-babilu-technology.php"><span>Babilu™ Technology</span></a></li><li class="item170"><a href="translation-comparison-matrix.php"><span>Comparison Matrix</span></a></li></ul></li><li class="parent item300"><a href="contact-us.php"><span>About Us</span></a><ul><li class="item310"><a href="contact-us.php"><span>Contact Us</span></a></li><li class="item320"><a href="news-archive.php"><span>Latest News</span></a></li><li class="item330"><a href="legal.php"><span>Legal</span></a></li></ul></li>        		</ul>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="pageName" align="center"></div>
+        <div class="separatorIndex"></div>
+        <div id="slide-container">
+            <div>
+
+                <!--####################  The Exercise ####################-->
+                <table id="myTable"><tbody></tbody></table>
+                <button id="shuffleBtn" style="display: none" onclick="makeArrRandom(tableRows)">Shuffle</button>
+                <!--####################  end The Exercise ####################-->
+            </div>
+        </div>
+
+
+        <div class="bottomPad"></div>
+    </div>
+    <div id="footerMenu">
+        <ul class="footmenu">
+            <li><span class="divider">|</span></li>
+            <li><a href="index.php"><span>Home</span></a></li><li><span class="divider">|</span></li><li><a href="legal.php"><span>Legal</span></a></li><li><span class="divider">|</span></li><li><a href="news-archive.php"><span>News</span></a></li><li><span class="divider">|</span></li><li><a href="contact-us.php"><span>Contact</span></a></li><li><span class="divider">|</span></li>			<li><a href="http://www.twitter.com/Avilinga" target="_new"><span valign="bottom"><img src="https://twitter-badges.s3.amazonaws.com/t_mini-b.png"></span></a></li>
+            <li><span class="divider">|</span></li>
+        </ul>
+    </div>
+    <div id="copyright">Avilinga is a service mark of Language Direct Translation Services FZE, Ras Al Khaimah, UAE. © 2011-2013 Language Direct Translation Services FZE.<br>&nbsp;</div>
+</div>
+
+
+<!--####################  The Exercise ####################-->
+<script>
+  var tableRows = [];
+  var tableHeader="<tr><th>ID</th><th>MODEL</th><th>COLOR</th></tr>";
+  var tableRow;
+  var theTable = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+
+  $(document).ready(function(){
+    //$.getJSON("thedata.json?include=data", function(result){
+    function loadXMLDoc() {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          createTable(JSON.parse(this.response).data);
+        }
+      };
+      xmlhttp.open("GET", "thedata.json", true);
+      xmlhttp.send();
+    }
+    loadXMLDoc(0);
+  });
+
+  function createTable(xml) {
+    var xmlDoc = xml;
+    //$.each(result.data, function(index, value) {
+    for (var i = 0; i <xmlDoc.length; i++) {
+      tableRow = "<tr><td>" + xmlDoc[i].id +
+        "</td><td>" +         xmlDoc[i].attributes.model +
+        "</td><td>" +         xmlDoc[i].attributes.color +
+        "</td></tr>";
+      tableRows.push(tableRow);
+    }
+    //$('table').append(tr);
+    theTable.innerHTML = tableHeader + tableRows.join(" ");
+    $('#shuffleBtn').fadeIn();
+
+  }
+
+  makeArrRandom = function(array) {
+    var counter = array.length, temp, index;
+    while (counter > 0) {
+      index = Math.floor(Math.random() * counter);
+      counter--;
+      temp = array[counter];
+      array[counter] = array[index];
+      array[index] = temp;
+    }
+    theTable.innerHTML = tableHeader + array.join(" ");
+  };
+</script>
+</body>
+</html>

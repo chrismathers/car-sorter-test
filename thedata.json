@@ -1,0 +1,29 @@
+{
+  "total": "3",
+  "data": [
+    {
+      "type": "car",
+      "id": "1",
+      "attributes": {
+        "model": "Ford",
+        "color": "black"
+      }
+    },
+    {
+      "type": "car",
+      "id": "2",
+      "attributes": {
+        "model": "Chevy",
+        "color": "red"
+      }
+    },
+    {
+      "type": "car",
+      "id": "3",
+      "attributes": {
+        "model": "Dodge",
+        "color": "blue"
+      }
+    }
+  ]
+}
