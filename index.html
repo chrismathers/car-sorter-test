@@ -83,53 +83,49 @@
 
 <!--####################  The Exercise ####################-->
 <script>
-  var tableRows = [];
-  var tableHeader="<tr><th>ID</th><th>MODEL</th><th>COLOR</th></tr>";
-  var tableRow;
-  var theTable = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-
-  $(document).ready(function(){
-    //$.getJSON("thedata.json?include=data", function(result){
-    function loadXMLDoc() {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          createTable(JSON.parse(this.response).data);
+    var tableRows = [];
+    var tableHeader="<tr><th>ID</th><th>MODEL</th><th>COLOR</th></tr>";
+    var tableRow;
+    var theTable = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+    $(document).ready(function(){
+        //$.getJSON("thedata.json?include=data", function(result){
+        function loadXMLDoc() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    createTable(JSON.parse(this.response).data);
+                }
+            };
+            xmlhttp.open("GET", "thedata.json", true);
+            xmlhttp.send();
         }
-      };
-      xmlhttp.open("GET", "thedata.json", true);
-      xmlhttp.send();
+        loadXMLDoc(0);
+    });
+    function createTable(xml) {
+        var xmlDoc = xml;
+        //$.each(result.data, function(index, value) {
+        for (var i = 0; i <xmlDoc.length; i++) {
+            tableRow = "<tr><td>" + xmlDoc[i].id +
+                "</td><td>" +         xmlDoc[i].attributes.model +
+                "</td><td>" +         xmlDoc[i].attributes.color +
+                "</td></tr>";
+            tableRows.push(tableRow);
+        }
+        //$('table').append(tr);
+        theTable.innerHTML = tableHeader + tableRows.join(" ");
+        $('#shuffleBtn').fadeIn();
     }
-    loadXMLDoc(0);
-  });
-
-  function createTable(xml) {
-    var xmlDoc = xml;
-    //$.each(result.data, function(index, value) {
-    for (var i = 0; i <xmlDoc.length; i++) {
-      tableRow = "<tr><td>" + xmlDoc[i].id +
-        "</td><td>" +         xmlDoc[i].attributes.model +
-        "</td><td>" +         xmlDoc[i].attributes.color +
-        "</td></tr>";
-      tableRows.push(tableRow);
-    }
-    //$('table').append(tr);
-    theTable.innerHTML = tableHeader + tableRows.join(" ");
-    $('#shuffleBtn').fadeIn();
-
-  }
-
-  makeArrRandom = function(array) {
-    var counter = array.length, temp, index;
-    while (counter > 0) {
-      index = Math.floor(Math.random() * counter);
-      counter--;
-      temp = array[counter];
-      array[counter] = array[index];
-      array[index] = temp;
-    }
-    theTable.innerHTML = tableHeader + array.join(" ");
-  };
+    makeArrRandom = function(array) {
+        var counter = array.length, temp, index;
+        while (counter > 0) {
+            index = Math.floor(Math.random() * counter);
+            counter--;
+            temp = array[counter];
+            array[counter] = array[index];
+            array[index] = temp;
+        }
+        theTable.innerHTML = tableHeader + array.join(" ");
+    };
 </script>
 </body>
 </html>
